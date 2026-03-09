@@ -11,7 +11,6 @@ import { Resend } from "resend";
 
 dotenv.config();
 
-// Fix for __dirname in ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -27,7 +26,7 @@ mongoose.connect(MONGODB_URI)
 
 // --- Mongoose Schemas ---
 const UserSchema = new mongoose.Schema({
-  _id: { type: String, required: true },
+  _id: { type: String, required: true }, // Keeping your custom string IDs
   firstName: String,
   lastName: String,
   mobileNumber: String,
@@ -48,7 +47,7 @@ const ServiceSchema = new mongoose.Schema({
   contactNumber: String,
   operatingHours: String,
   photoUrls: [String], 
-  createdBy: { type: String, ref: 'User' },
+  createdBy: { type: String, ref: 'User' }, // Store as String to match User._id
   createdAt: { type: Number, default: Date.now }
 }, { _id: false });
 const Service = mongoose.model("Service", ServiceSchema);
@@ -99,7 +98,12 @@ async function startServer() {
     try {
       const user = await User.findOne({ email, password });
       if (user) {
-        res.json(user);
+        // FIX: Ensure the ID is explicitly returned as 'id' for frontend consistency
+        const userData = user.toObject();
+        res.json({
+          ...userData,
+          id: user._id 
+        });
       } else {
         res.status(401).json({ error: "Invalid credentials" });
       }
@@ -151,9 +155,12 @@ async function startServer() {
       const enriched = await Promise.all(services.map(async (s: any) => {
         const ratings = await Rating.find({ serviceId: s._id });
         const userObj = await User.findById(s.createdBy);
+        
+        // FIX: Ensure createdBy and id are strings so frontend comparison works
         return {
           ...s.toObject(),
-          id: s._id,
+          id: String(s._id),
+          createdBy: String(s.createdBy),
           creatorName: userObj ? `${userObj.firstName} ${userObj.lastName}` : "Unknown",
           avgRating: ratings.length ? ratings.reduce((a, b) => a + b.rating, 0) / ratings.length : 0,
           ratingCount: ratings.length
@@ -176,6 +183,20 @@ async function startServer() {
       });
       await newService.save();
       res.json({ id, photoUrls: processedUrls });
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.put("/api/services/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+      const processedUrls = await Promise.all((req.body.photoUrls || []).map((url: string) => saveToImgBB(url)));
+      const updated = await Service.findByIdAndUpdate(id, {
+        ...req.body,
+        photoUrls: processedUrls.filter(u => u !== "")
+      }, { new: true });
+      res.json(updated);
     } catch (err: any) {
       res.status(400).json({ error: err.message });
     }
