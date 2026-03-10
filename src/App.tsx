@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import BottomNav from './components/BottomNav';
 import { Category, Service, UserProfile } from './types';
 import { CATEGORIES, STATES, MALAYSIA_STATES } from './constants';
+import chromeIcon from './chromeicon.png'; // Add this line!
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'find' | 'home' | 'profile'>('home');
@@ -144,7 +145,7 @@ const fetchUserServices = async () => {
       <header className="bg-blue-600 text-white p-4 sticky top-0 z-40 shadow-md flex items-center justify-center relative">
         <div className="flex items-center gap-2">
           <div className="bg-white p-1 rounded-xl shadow-sm">
-            <img src="/src/chromeicon.png" className="w-8 h-8" alt="Icon" />
+            <img src={chromeIcon} className="w-8 h-8" alt="Icon" />
           </div>
           <h1 className="text-xl font-bold tracking-tight">Service Call</h1>
         </div>
