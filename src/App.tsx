@@ -169,315 +169,320 @@ const fetchUserServices = async () => {
         <AnimatePresence mode="wait">
           {activeTab === 'home' && (
             <motion.div
-              key="home"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-6"
-            >
-              <div className="text-center w-full">
-                <p className="text-xs sm:text-sm font-medium text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
-                  Your Local Services, One Simple Search
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  onClick={() => setIsNewServiceOpen(true)}
-                  className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 flex flex-col items-center gap-3 hover:bg-blue-50 transition-colors"
-                >
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-600">
-                    <Plus size={28} />
-                  </div>
-                  <span className="font-semibold text-gray-800">New Service</span>
-                </button>
-                <button
-                  onClick={() => setActiveTab('find')}
-                  className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 flex flex-col items-center gap-3 hover:bg-blue-50 transition-colors"
-                >
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-600">
-                    <Search size={28} />
-                  </div>
-                  <span className="font-semibold text-gray-800">Find Service</span>
-                </button>
-              </div>
+  key="home"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -20 }}
+  className="space-y-6"
+>
+  <div className="text-center w-full">
+    <p className="text-xs sm:text-sm font-medium text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
+      Your Local Services, One Simple Search
+    </p>
+  </div>
 
-              <section>
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Top Categories</h2>
-                <div className="grid grid-cols-2 gap-4">
-                  {topCategories.length > 0 ? (
-                    topCategories.map((cat, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => {
-                          setFilterCategory(cat.category);
-                          setActiveTab('find');
-                          fetchServices({ category: cat.category });
-                        }}
-                        className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow group"
-                      >
-                        <div className="aspect-square grid grid-cols-2 gap-0.5 bg-gray-100 p-0.5">
-                          {[0, 1, 2, 3].map(i => (
-                            <div key={i} className="bg-white overflow-hidden">
-                              {cat.thumbnails && cat.thumbnails[i] ? (
-                                <img src={cat.thumbnails[i]} className="w-full h-full object-cover" alt="" />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center text-gray-200">
-                                   
-                                 {/* <Camera size={12} />*/}
-                                  <img 
-  src={service.photoUrls?.[0] || '/path-to-your-default-toolbox-image.png'} 
-  alt={service.providerName} 
-  className="w-full h-full object-cover" 
-/>
+  {/* Action Buttons */}
+  <div className="grid grid-cols-2 gap-4">
+    <button
+      onClick={() => setIsNewServiceOpen(true)}
+      className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 flex flex-col items-center gap-3 hover:bg-blue-50 transition-colors"
+    >
+      <div className="bg-blue-100 p-3 rounded-full text-blue-600">
+        <Plus size={28} />
+      </div>
+      <span className="font-semibold text-gray-800">New Service</span>
+    </button>
+    <button
+      onClick={() => setActiveTab('find')}
+      className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 flex flex-col items-center gap-3 hover:bg-blue-50 transition-colors"
+    >
+      <div className="bg-blue-100 p-3 rounded-full text-blue-600">
+        <Search size={28} />
+      </div>
+      <span className="font-semibold text-gray-800">Find Service</span>
+    </button>
+  </div>
 
-                                  
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                        <div className="p-3 flex justify-between items-center">
-                          <div className="flex flex-col overflow-hidden">
-                            <span className="font-bold text-sm text-gray-800 truncate">{cat.category}</span>
-                            <span className="text-[10px] text-gray-400">{cat.count} services</span>
-                          </div>
-                          <ChevronRight size={16} className="text-gray-300 group-hover:text-blue-600 transition-colors flex-shrink-0" />
-                        </div>
-                      </div>
-                    ))
+  {/* Top Categories Section */}
+  <section>
+    <h2 className="text-lg font-bold text-gray-900 mb-4">Top Categories</h2>
+    <div className="grid grid-cols-2 gap-4">
+      {topCategories.length > 0 ? (
+        topCategories.map((cat, idx) => (
+          <div
+            key={idx}
+            onClick={() => {
+              setFilterCategory(cat.category);
+              setActiveTab('find');
+              fetchServices({ category: cat.category });
+            }}
+            className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow group"
+          >
+            {/* 2x2 Image Grid */}
+            <div className="aspect-square grid grid-cols-2 gap-0.5 bg-gray-100 p-0.5">
+              {[0, 1, 2, 3].map(i => (
+                <div key={i} className="bg-white overflow-hidden flex items-center justify-center">
+                  {cat.thumbnails && cat.thumbnails[i] ? (
+                    <img 
+                      src={cat.thumbnails[i]} 
+                      className="w-full h-full object-cover" 
+                      alt="" 
+                    />
                   ) : (
-                    <div className="col-span-2 text-center py-8 text-gray-400 italic">No services added yet</div>
+                    <div className="w-full h-full flex items-center justify-center bg-gray-50 p-2">
+                      {/* Default placeholder if no image exists */}
+                      <img 
+                        src="https://img.icons8.com/fluency/48/toolbox.png" 
+                        className="w-full h-full object-contain opacity-30" 
+                        alt="Default icon"
+                      />
+                    </div>
                   )}
                 </div>
-              </section>
-            </motion.div>
+              ))}
+            </div>
+
+            {/* Category Info */}
+            <div className="p-3 flex justify-between items-center">
+              <div className="flex flex-col overflow-hidden">
+                <span className="font-bold text-sm text-gray-800 truncate">{cat.category}</span>
+                <span className="text-[10px] text-gray-400">{cat.count} services</span>
+              </div>
+              <ChevronRight size={16} className="text-gray-300 group-hover:text-blue-600 transition-colors flex-shrink-0" />
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="col-span-2 text-center py-8 text-gray-400 italic">No services added yet</div>
+      )}
+    </div>
+  </section>
+</motion.div>
+      
           )}
 
           {activeTab === 'find' && (
             <motion.div
-              key="find"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-4"
-            >
-              <div className="text-center w-full">
-                <p className="text-xs sm:text-sm font-medium text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
-                  Need a Service? Find It Here Fast
-                </p>
-              </div>
-              <div className="bg-white p-4 rounded-2xl shadow-sm space-y-3 border border-gray-100">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                  <input
-                    type="text"
-                    placeholder="Search services..."
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                
-                <div className="grid grid-cols-2 gap-2">
-                  <select
-                    className="bg-gray-50 p-2 rounded-lg text-sm outline-none border-none focus:ring-1 focus:ring-blue-500"
-                    value={filterState}
-                    onChange={(e) => {
-                      setFilterState(e.target.value);
-                      setFilterTown('');
-                    }}
-                  >
-                    <option value="">All States</option>
-                    {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                  <select
-                    className="bg-gray-50 p-2 rounded-lg text-sm outline-none border-none focus:ring-1 focus:ring-blue-500"
-                    value={filterTown}
-                    onChange={(e) => setFilterTown(e.target.value)}
-                    disabled={!filterState}
-                  >
-                    <option value="">All Towns</option>
-                    {filterState && MALAYSIA_STATES[filterState].map(d => <option key={d} value={d}>{d}</option>)}
-                  </select>
-                </div>
-                
-                <select
-                  className="w-full bg-gray-50 p-2 rounded-lg text-sm outline-none border-none focus:ring-1 focus:ring-blue-500"
-                  value={filterCategory}
-                  onChange={(e) => setFilterCategory(e.target.value)}
-                >
-                  <option value="">All Categories</option>
-                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-
-                <button
-                  onClick={handleSearch}
-                  className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-200 active:scale-95 transition-transform"
-                >
-                  Find
-                </button>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                {isLoading ? (
-                  Array(6).fill(0).map((_, i) => (
-                    <div key={i} className="bg-gray-200 animate-pulse h-32 rounded-xl"></div>
-                  ))
-                ) : services.length > 0 ? (
-                  services.map((service) => (
-                    <div
-                      key={service.id}
-                      onClick={() => setSelectedService(service)}
-                      className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-2 cursor-pointer hover:shadow-md transition-shadow relative overflow-hidden"
-                    >
-                      {service.ratingCount > 0 && (
-                        <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-1.5 py-0.5 rounded-lg shadow-sm flex items-center gap-1 z-10 border border-gray-100">
-                          <Star size={10} className="text-yellow-400 fill-yellow-400" />
-                          <span className="text-[10px] font-bold text-gray-700">{(service.avgRating || 0).toFixed(1)}</span>
-                          <span className="text-[8px] text-gray-400">({service.ratingCount})</span>
-                        </div>
-                      )}
-
-{/* --- CHANGE IT TO THIS (FALLBACK LOGIC) --- */}
-<div className="h-20 bg-gray-100 rounded-lg overflow-hidden">
-  {/* Add service.photoUrl or service.image as fallbacks */}
-  {(service.photoUrls && service.photoUrls.length > 0) || service.photoUrl || service.image ? (
-    <img 
-      src={(service.photoUrls && service.photoUrls[0]) || service.photoUrl || service.image} 
-      alt={service.providerName} 
-      className="w-full h-full object-cover" 
-    />
-  ) : (
-    <div className="w-full h-full flex items-center justify-center text-gray-300">
-      {/* <Camera size={24} */}
-          <img 
-  src={service.photoUrls?.[0] || '/path-to-your-default-toolbox-image.png'} 
-  alt={service.providerName} 
-  className="w-full h-full object-cover" 
-/>
-
-
-          
+  key="find"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -20 }}
+  className="space-y-4"
+>
+  <div className="text-center w-full">
+    <p className="text-xs sm:text-sm font-medium text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
+      Need a Service? Find It Here Fast
+    </p>
+  </div>
+  
+  <div className="bg-white p-4 rounded-2xl shadow-sm space-y-3 border border-gray-100">
+    <div className="relative">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+      <input
+        type="text"
+        placeholder="Search services..."
+        className="w-full pl-10 pr-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
     </div>
-  )}
-</div>
-                      
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">{service.category}</span>
-                        <h3 className="text-sm font-bold text-gray-900 truncate">{service.providerName}</h3>
-                        <div className="flex items-center gap-1 text-gray-400 text-[10px]">
-                          <Clock size={10} />
-                          <span>{service.operatingHours}</span>
-                        </div>
-                        {service.creatorName && (
-                          <div className="flex items-center gap-1 text-gray-400 text-[10px] mt-1">
-                            <User size={10} />
-                            <span className="truncate">By {service.creatorName}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="col-span-2 text-center py-12 text-gray-400">
-                    No services found matching your criteria.
-                  </div>
-                )}
+
+    <div className="grid grid-cols-2 gap-2">
+      <select
+        className="bg-gray-50 p-2 rounded-lg text-sm outline-none border-none focus:ring-1 focus:ring-blue-500"
+        value={filterState}
+        onChange={(e) => {
+          setFilterState(e.target.value);
+          setFilterTown('');
+        }}
+      >
+        <option value="">All States</option>
+        {STATES.map(s => <option key={s} value={s}>{s}</option>)}
+      </select>
+      <select
+        className="bg-gray-50 p-2 rounded-lg text-sm outline-none border-none focus:ring-1 focus:ring-blue-500"
+        value={filterTown}
+        onChange={(e) => setFilterTown(e.target.value)}
+        disabled={!filterState}
+      >
+        <option value="">All Towns</option>
+        {filterState && MALAYSIA_STATES[filterState].map(d => <option key={d} value={d}>{d}</option>)}
+      </select>
+    </div>
+
+    <select
+      className="w-full bg-gray-50 p-2 rounded-lg text-sm outline-none border-none focus:ring-1 focus:ring-blue-500"
+      value={filterCategory}
+      onChange={(e) => setFilterCategory(e.target.value)}
+    >
+      <option value="">All Categories</option>
+      {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+    </select>
+
+    <button
+      onClick={handleSearch}
+      className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-200 active:scale-95 transition-transform"
+    >
+      Find
+    </button>
+  </div>
+
+  <div className="grid grid-cols-2 gap-3">
+    {isLoading ? (
+      Array(6).fill(0).map((_, i) => (
+        <div key={i} className="bg-gray-200 animate-pulse h-32 rounded-xl"></div>
+      ))
+    ) : services.length > 0 ? (
+      services.map((service) => (
+        <div
+          key={service.id}
+          onClick={() => setSelectedService(service)}
+          className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-2 cursor-pointer hover:shadow-md transition-shadow relative overflow-hidden"
+        >
+          {service.ratingCount > 0 && (
+            <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-1.5 py-0.5 rounded-lg shadow-sm flex items-center gap-1 z-10 border border-gray-100">
+              <Star size={10} className="text-yellow-400 fill-yellow-400" />
+              <span className="text-[10px] font-bold text-gray-700">{(service.avgRating || 0).toFixed(1)}</span>
+              <span className="text-[8px] text-gray-400">({service.ratingCount})</span>
+            </div>
+          )}
+
+          {/* Corrected Image Fallback Logic */}
+          <div className="h-20 bg-gray-100 rounded-lg overflow-hidden">
+            {((service.photoUrls && service.photoUrls.length > 0) || service.photoUrl || service.image) ? (
+              <img 
+                src={(service.photoUrls && service.photoUrls[0]) || service.photoUrl || service.image} 
+                alt={service.providerName} 
+                className="w-full h-full object-cover" 
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                <img 
+                  src="https://img.icons8.com/fluency/48/toolbox.png" 
+                  className="w-8 h-8 opacity-40 object-contain" 
+                  alt="Default Service"
+                />
               </div>
-            </motion.div>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">{service.category}</span>
+            <h3 className="text-sm font-bold text-gray-900 truncate">{service.providerName}</h3>
+            <div className="flex items-center gap-1 text-gray-400 text-[10px]">
+              <Clock size={10} />
+              <span>{service.operatingHours}</span>
+            </div>
+            {service.creatorName && (
+              <div className="flex items-center gap-1 text-gray-400 text-[10px] mt-1">
+                <User size={10} />
+                <span className="truncate">By {service.creatorName}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      ))
+    ) : (
+      <div className="col-span-2 text-center py-12 text-gray-400">
+        No services found matching your criteria.
+      </div>
+    )}
+  </div>
+</motion.div>
           )}
 
           {activeTab === 'profile' && (
             <motion.div
-              key="profile"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-6"
-            >
-              {user ? (
-                <div className="space-y-6">
-                  <div className="bg-white p-6 rounded-2xl shadow-sm text-center space-y-4">
-                    <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto">
-                      <User size={40} />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold text-gray-900">{user.firstName} {user.lastName}</h2>
-                      <p className="text-gray-500">{user.email}</p>
-                      <p className="text-gray-500">{user.mobileNumber}</p>
-                    </div>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center justify-center gap-2 text-red-500 font-semibold py-2"
-                    >
-                      <LogOut size={18} />
-                      Logout
-                    </button>
+  key="profile"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -20 }}
+  className="space-y-6"
+>
+  {user ? (
+    <div className="space-y-6">
+      <div className="bg-white p-6 rounded-2xl shadow-sm text-center space-y-4">
+        <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto">
+          <User size={40} />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">{user.firstName} {user.lastName}</h2>
+          <p className="text-gray-500">{user.email}</p>
+          <p className="text-gray-500">{user.mobileNumber}</p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 text-red-500 font-semibold py-2"
+        >
+          <LogOut size={18} />
+          Logout
+        </button>
+      </div>
+
+      <section>
+        <h3 className="text-lg font-bold text-gray-900 mb-4">My Services</h3>
+        <div className="space-y-3">
+          {userServices.length > 0 ? (
+            userServices.map(service => (
+              <div key={service.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+                    {/* Fixed Logic: Checks for array, single string, or fallback icon */}
+                    {(service.photoUrls && service.photoUrls.length > 0) || service.photoUrl || service.image ? (
+                      <img 
+                        src={(service.photoUrls && service.photoUrls[0]) || service.photoUrl || service.image} 
+                        className="w-full h-full object-cover" 
+                        alt={service.providerName} 
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-50 p-2">
+                        <img 
+                          src="https://img.icons8.com/fluency/48/toolbox.png" 
+                          className="w-full h-full object-contain opacity-40" 
+                          alt="Default"
+                        />
+                      </div>
+                    )}
                   </div>
-
-                  <section>
-                    <h3 className="text-lg font-bold text-gray-900 mb-4">My Services</h3>
-                    <div className="space-y-3">
-                      {userServices.length > 0 ? (
-                        userServices.map(service => (
-                          <div key={service.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
-                            <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden">
-                                {service.photoUrls && service.photoUrls.length > 0 ? (
-                                  <img src={service.photoUrls[0]} className="w-full h-full object-cover" alt="" />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-gray-300">
-                                   {/*  <Camera size={20} /> */}
-                                    <img 
-  src={service.photoUrls?.[0] || '/path-to-your-default-toolbox-image.png'} 
-  alt={service.providerName} 
-  className="w-full h-full object-cover" 
-/>
-
-
-                                    
-                                  </div>
-                                )}
-                              </div>
-                              <div>
-                                <h4 className="font-bold text-gray-900 text-sm">{service.providerName}</h4>
-                                <p className="text-xs text-blue-600 font-medium">{service.category}</p>
-                              </div>
-                            </div>
-                            <div className="flex gap-2">
-                              <button
-                                onClick={() => {
-                                  setServiceToEdit(service);
-                                  setIsNewServiceOpen(true);
-                                }}
-                                className="bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => setServiceToDelete(service)}
-                                className="bg-red-50 text-red-600 px-3 py-2 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors"
-                              >
-                                <Trash2 size={14} />
-                              </button>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-center py-8 text-gray-400 bg-white rounded-xl border border-dashed border-gray-200">
-                          You haven't added any services yet.
-                        </div>
-                      )}
-                    </div>
-                  </section>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm">{service.providerName}</h4>
+                    <p className="text-xs text-blue-600 font-medium">{service.category}</p>
+                  </div>
                 </div>
-              ) : (
-                <AuthScreen onLogin={(u) => {
-                  setUser(u);
-                  localStorage.setItem('user', JSON.stringify(u));
-                }} />
-              )}
-            </motion.div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setServiceToEdit(service);
+                      setIsNewServiceOpen(true);
+                    }}
+                    className="bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => setServiceToDelete(service)}
+                    className="bg-red-50 text-red-600 px-3 py-2 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-gray-400 bg-white rounded-xl border border-dashed border-gray-200">
+              You haven't added any services yet.
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  ) : (
+    <AuthScreen onLogin={(u) => {
+      setUser(u);
+      localStorage.setItem('user', JSON.stringify(u));
+    }} />
+  )}
+</motion.div>
           )}
         </AnimatePresence>
       </main>
