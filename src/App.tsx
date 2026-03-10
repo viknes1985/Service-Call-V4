@@ -168,7 +168,9 @@ const fetchUserServices = async () => {
         )}
         <AnimatePresence mode="wait">
           {activeTab === 'home' && (
-            <motion.div
+         
+      
+      <motion.div
   key="home"
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
@@ -229,14 +231,23 @@ const fetchUserServices = async () => {
                       alt="" 
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-50 p-2">
-                      {/* Default placeholder if no image exists */}
-                      <img 
-                        src="https://img.icons8.com/fluency/48/toolbox.png" 
-                        className="w-full h-full object-contain opacity-30" 
-                        alt="Default icon"
-                      />
-                    </div>
+                   
+                  
+<div className="w-full h-full flex items-center justify-center bg-gray-50 p-2">
+  {/* Dynamic category icon from local assets */}
+  <img 
+    src={CATEGORY_ICONS[cat.category] || '/category-defaults/others.png'} 
+    className="w-full h-full object-contain opacity-60" 
+    alt={cat.category}
+    onError={(e) => {
+      // Safety fallback if a specific image file is missing
+      e.currentTarget.src = '/category-defaults/others.png';
+    }}
+  />
+</div>
+
+
+                  
                   )}
                 </div>
               ))}
@@ -356,13 +367,21 @@ const fetchUserServices = async () => {
                 className="w-full h-full object-cover" 
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                <img 
-                  src="https://img.icons8.com/fluency/48/toolbox.png" 
-                  className="w-8 h-8 opacity-40 object-contain" 
-                  alt="Default Service"
-                />
-              </div>
+
+         
+          <div className="w-full h-full flex items-center justify-center bg-gray-50 p-2">
+  <img 
+    src={CATEGORY_ICONS[service.category] || '/category-defaults/others.png'} 
+    className="w-full h-full object-contain" 
+    alt={service.category}
+    onError={(e) => {
+      // Final safety fallback if the file path is broken
+      e.currentTarget.src = '/category-defaults/others.png';
+    }}
+  />
+</div>
+
+          
             )}
           </div>
 
@@ -392,7 +411,8 @@ const fetchUserServices = async () => {
           )}
 
           {activeTab === 'profile' && (
-            <motion.div
+
+<motion.div
   key="profile"
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
@@ -435,13 +455,22 @@ const fetchUserServices = async () => {
                         alt={service.providerName} 
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-50 p-2">
-                        <img 
-                          src="https://img.icons8.com/fluency/48/toolbox.png" 
-                          className="w-full h-full object-contain opacity-40" 
-                          alt="Default"
-                        />
-                      </div>
+
+
+<div className="w-full h-full flex items-center justify-center bg-gray-50 p-2">
+  <img 
+    src={CATEGORY_ICONS[service.category] || '/category-defaults/others.png'} 
+    className="w-full h-full object-contain opacity-80" 
+    alt={service.category}
+    onError={(e) => {
+      // Fallback if the specific category image fails to load
+      e.currentTarget.src = '/category-defaults/others.png';
+    }}
+  />
+</div>
+
+
+                
                     )}
                   </div>
                   <div>
@@ -789,6 +818,19 @@ function AuthScreen({ onLogin }: { onLogin: (user: UserProfile) => void }) {
     </div>
   );
 }
+
+const CATEGORY_ICONS = {
+  'Welding': '/category-defaults/welding.png',
+  'Others': '/category-defaults/others.png',
+  'Plumber': '/category-defaults/plumber.png',
+  'Electrical related': '/category-defaults/electrical-related.png',
+  'Painting': '/category-defaults/painting.png',
+  'Construction': '/category-defaults/construction.png',
+  'Cleaning': '/category-defaults/cleaning.png',
+  'Carpentering': '/category-defaults/carpentering.png',
+  'Planting': '/category-defaults/planting.png',
+  'Roof Cleaning': '/category-defaults/roof-cleaning.png',
+};
 
 const TIMES = [
   "12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM",
