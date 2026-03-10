@@ -222,7 +222,8 @@ const fetchUserServices = async () => {
                                 <img src={cat.thumbnails[i]} className="w-full h-full object-cover" alt="" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-gray-200">
-                                  //<Camera size={12} />
+                                   
+                                 {/* <Camera size={12} />*/}
                                   <img 
   src={service.photoUrls?.[0] || '/path-to-your-default-toolbox-image.png'} 
   alt={service.providerName} 
@@ -348,7 +349,7 @@ const fetchUserServices = async () => {
     />
   ) : (
     <div className="w-full h-full flex items-center justify-center text-gray-300">
-      //<Camera size={24} 
+      {/* <Camera size={24} */}
           <img 
   src={service.photoUrls?.[0] || '/path-to-your-default-toolbox-image.png'} 
   alt={service.providerName} 
@@ -426,7 +427,7 @@ const fetchUserServices = async () => {
                                   <img src={service.photoUrls[0]} className="w-full h-full object-cover" alt="" />
                                 ) : (
                                   <div className="w-full h-full flex items-center justify-center text-gray-300">
-                                   // <Camera size={20} />
+                                   {/*  <Camera size={20} /> */}
                                     <img 
   src={service.photoUrls?.[0] || '/path-to-your-default-toolbox-image.png'} 
   alt={service.providerName} 
@@ -1271,7 +1272,7 @@ function ServiceDetailModal({ service, user, onClose, onRate }: { service: Servi
             </AnimatePresence>
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-300">
-              //<Camera size={48} />
+              {/*  <Camera size={48} /> */}
               <img 
   src={service.photoUrls?.[0] || '/path-to-your-default-toolbox-image.png'} 
   alt={service.providerName} 
