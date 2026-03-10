@@ -46,12 +46,18 @@ export default function App() {
     setIsLoading(false);
   };
 
-  const fetchUserServices = async () => {
-    if (!user) return;
-    const res = await fetch(`/api/services?createdBy=${user.id}`);
+const fetchUserServices = async () => {
+  if (!user?.id) return; // Use optional chaining for safety
+  try {
+    const res = await fetch(`/api/services?createdBy=${String(user.id)}`);
     const data = await res.json();
-    setUserServices(data);
-  };
+    if (Array.isArray(data)) {
+      setUserServices(data);
+    }
+  } catch (err) {
+    console.error("Error fetching user services:", err);
+  }
+};
 
  const fetchTopCategories = async () => {
   try {
@@ -82,7 +88,12 @@ export default function App() {
       const res = await fetch(`/api/services/${serviceId}/rate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, rating })
+        bJSON.stringify({ 
+  ...formData, 
+  operatingHours, 
+  photoUrls, 
+  createdBy: String(user.id) // Forces the ID to be a clean string
+})
       });
       if (res.ok) {
         fetchServices({
@@ -907,7 +918,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       method,
       headers: { 'Content-Type': 'application/json' },
       // The photoUrls being sent here are the Base64 strings from compressImage
-      body: JSON.stringify({ ...formData, operatingHours, photoUrls, createdBy: user.id })
+      body: JSON.stringify({ ...formData, operatingHours, photoUrls, createdBy: String(user.id) })
     });
     
     const data = await res.json(); // Capture the response data
