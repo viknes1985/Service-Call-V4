@@ -88,7 +88,7 @@ const fetchUserServices = async () => {
       const res = await fetch(`/api/services/${serviceId}/rate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        bJSON.stringify({ 
+        body: JSON.stringify({ 
   ...formData, 
   operatingHours, 
   photoUrls, 
