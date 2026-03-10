@@ -1167,7 +1167,7 @@ function ServiceDetailModal({ service, user, onClose, onRate }: { service: Servi
   
   // 2. Format the category to match your filenames in /public/category-defaults/
   // This turns "Electrical related" into "electrical-related"
-  const formattedCategory = (service.category || 'others').toLowerCase().replace(/ /g, '-');
+  const formattedCategory = (service.category || 'others').toLowerCase().replace(/\s+/g, '-');
   const defaultPhotoPath = `/category-defaults/${formattedCategory}.png`;
 
   // 3. Use uploaded photos, or fallback to the category default
