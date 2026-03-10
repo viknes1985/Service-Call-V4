@@ -329,15 +329,23 @@ const fetchUserServices = async () => {
                           <span className="text-[8px] text-gray-400">({service.ratingCount})</span>
                         </div>
                       )}
-                      <div className="h-20 bg-gray-100 rounded-lg overflow-hidden">
-                        {service.photoUrls && service.photoUrls.length > 0 ? (
-                          <img src={service.photoUrls[0]} alt={service.providerName} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-300">
-                            <Camera size={24} />
-                          </div>
-                        )}
-                      </div>
+
+{/* --- CHANGE IT TO THIS (FALLBACK LOGIC) --- */}
+<div className="h-20 bg-gray-100 rounded-lg overflow-hidden">
+  {/* Add service.photoUrl or service.image as fallbacks */}
+  {(service.photoUrls && service.photoUrls.length > 0) || service.photoUrl || service.image ? (
+    <img 
+      src={(service.photoUrls && service.photoUrls[0]) || service.photoUrl || service.image} 
+      alt={service.providerName} 
+      className="w-full h-full object-cover" 
+    />
+  ) : (
+    <div className="w-full h-full flex items-center justify-center text-gray-300">
+      <Camera size={24} />
+    </div>
+  )}
+</div>
+                      
                       <div className="space-y-1">
                         <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">{service.category}</span>
                         <h3 className="text-sm font-bold text-gray-900 truncate">{service.providerName}</h3>
