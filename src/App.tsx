@@ -1158,7 +1158,22 @@ function ServiceDetailModal({ service, user, onClose, onRate }: { service: Servi
   const [hasChanged, setHasChanged] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const photos = service.photoUrls && service.photoUrls.length > 0 ? service.photoUrls : [];
+  
+  //const photos = service.photoUrls && service.photoUrls.length > 0 ? service.photoUrls : [];
+  // --- REPLACE THE OLD 'const photos' LINE WITH THIS ---
+  
+  // 1. Get uploaded photos if they exist
+  const uploadedPhotos = service.photoUrls && service.photoUrls.length > 0 ? service.photoUrls : [];
+  
+  // 2. Format the category to match your filenames in /public/category-defaults/
+  // This turns "Electrical related" into "electrical-related"
+  const formattedCategory = (service.category || 'others').toLowerCase().replace(/ /g, '-');
+  const defaultPhotoPath = `/category-defaults/${formattedCategory}.png`;
+
+  // 3. Use uploaded photos, or fallback to the category default
+  const photos = uploadedPhotos.length > 0 ? uploadedPhotos : [defaultPhotoPath];
+
+  // --- END OF NEW LOGIC ---
 
   const handleClose = () => {
     if (hasChanged) {
