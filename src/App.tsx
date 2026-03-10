@@ -233,7 +233,7 @@ const fetchUserServices = async () => {
                   ) : (
                    
                   
-<div className="w-full h-full flex items-center justify-center bg-gray-50 p-0.5">
+<div className="w-full h-full flex items-center justify-center bg-white p-0.5">
   {/* Dynamic category icon from local assets */}
   <img 
     src={CATEGORY_ICONS[cat.category] || '/category-defaults/others.png'} 
@@ -369,7 +369,7 @@ const fetchUserServices = async () => {
             ) : (
 
          
-          <div className="w-full h-full flex items-center justify-center bg-gray-50 p-0.5">
+          <div className="w-full h-full flex items-center justify-center bg-white p-0">
   <img 
     src={CATEGORY_ICONS[service.category] || '/category-defaults/others.png'} 
     className="w-full h-full object-contain" 
